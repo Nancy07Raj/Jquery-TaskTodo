@@ -14,6 +14,7 @@
     <style>
       body {
         margin: 0;
+        position: relative;
       }
 
       .nav-space {
@@ -72,6 +73,12 @@
         font-size: 14px;
         font-weight: 400;
       }
+      #userInfo {
+        position: absolute;
+        right: 5px;
+        margin: 10px;
+        width: auto;
+      }
     </style>
   </head>
   <body>
@@ -95,7 +102,9 @@
           <a href="./index.html" class="nav-link">Logout</a>
         </li>
       </ul>
+      <span id="userInfo" class="navbar-brand"></span>
     </nav>
+
     <form id="form">
       <div class="container p-5 my-5 border mt-3 form-div">
         <label for="title" class="form-label">Title</label>
@@ -244,6 +253,10 @@
       jQuery(document).ready(function () {
         if (localStorage.getItem("accessToken") == null)
           location.replace("./tasklogin.html");
+        let userName = localStorage.getItem("firstName");
+        let email = localStorage.getItem("email");
+        let userInfo = $("#userInfo");
+        userInfo.html("Hello..." + userName + "&nbsp" + "(" + email + ")");
       });
       if (localStorage.getItem("Id") !== null) {
         let title = $("#title");

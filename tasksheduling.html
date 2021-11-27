@@ -14,6 +14,7 @@
     <style>
       body {
         margin: 0;
+        position: relative;
       }
 
       .nav-space {
@@ -38,6 +39,12 @@
         border: 2px solid;
         padding: 5px;
       }
+      #userInfo {
+        position: absolute;
+        right: 5px;
+        margin: 10px;
+        width: auto;
+      }
     </style>
   </head>
   <body>
@@ -61,6 +68,7 @@
           <a href="./index.html" id="logout" class="nav-link">Logout</a>
         </li>
       </ul>
+      <span id="userInfo" class="navbar-brand"></span>
     </nav>
 
     <div class="container-fluid">
@@ -85,6 +93,12 @@
       jQuery(document).ready(function () {
         if (localStorage.getItem("accessToken") == null)
           location.replace("./tasklogin.html");
+        let userName = localStorage.getItem("firstName");
+        let email = localStorage.getItem("email");
+        let userInfo = $("#userInfo");
+        userInfo.html(
+          "Hello" + "&nbsp" + userName + "&nbsp" + "(" + email + ")"
+        );
         let logout = $("#logout");
         let edtBtn = $("#edtBtn");
         let delBtn = $("#delBtn");
