@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Task</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .nav-space {
+        margin: 0 20px;
+      }
+      .nav-item:hover {
+        background-color: #96c7c1;
+        color: black;
+      }
+      .content {
+        margin: 10px 20px;
+        max-height: 100%;
+        max-width: 100%;
+        /* background-color: darkseagreen; */
+      }
+      #btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 150px;
+      }
+
+      button:hover {
+        border-color: darkblue;
+        color: darkblue;
+      }
+      .row1 {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin: 10px;
+        /* padding: 10px; */
+      }
+      .row2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 10px;
+      }
+
+      .div2 {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: left;
+        margin: 0 10px;
+      }
+      .form-div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: left;
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-sm bg-dark container-fluid navbar-dark center"
+    >
+      <ul class="navbar-nav">
+        <li class="nav-item nav-space">
+          <a href="./taskhome.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="#" class="nav-link">Task</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="#" class="nav-link">DasshBoard</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="./tasksheduling.html" class="nav-link">Task Schedule</a>
+        </li>
+        <li class="nav-item nav-space" id="logout">
+          <a href="./index.html" class="nav-link">Logout</a>
+        </li>
+      </ul>
+    </nav>
+    <form id="form">
+      <div class="container p-5 my-5 border mt-3 form-div">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          id="title"
+          placeholder="Title"
+          class="form-control"
+          required
+        />
+        <p id="titleError" style="visibility: hidden" class="invalid-feedback">
+          Title is required field
+        </p>
+
+        <label for="des" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="des"
+          cols="30"
+          rows="5"
+          placeholder="Description"
+        >
+        </textarea>
+        <p id="desError" style="visibility: hidden" class="invalid-feedback">
+          Description is required field
+        </p>
+        <div class="row1">
+          <div class="div2">
+            <label for="duedate" class="form-label">Due Date</label>
+            <input type="date" id="dueDate" class="form-control" />
+            <p
+              id="dueError"
+              style="visibility: hidden"
+              class="invalid-feedback"
+            >
+              DueDate is required field and must be greater than today
+            </p>
+            <label for="priority" class="form-label">Priority</label>
+            <select class="form-select" name="priority" id="priority">
+              <option value="" disabled selected hidden>Priority</option>
+              <option value="1">High</option>
+              <option value="2">Medium</option>
+              <option value="3">Low</option>
+            </select>
+            <p
+              id="priorError"
+              style="visibility: hidden"
+              class="invalid-feedback"
+            >
+              Priority is required field
+            </p>
+          </div>
+          <div class="div2">
+            <div class="row2" id="type">
+              <label class="form-check-label">Type</label>
+              <div class="form-check row1">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="type1"
+                  name="type"
+                  value="1"
+                />
+                <label class="form-check-label" for="type1"> Task </label>
+              </div>
+              <div class="form-check row1">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="type2"
+                  name="type"
+                  value="2"
+                />
+                <label class="form-check-label" for="type2"> Story </label>
+              </div>
+              <div class="form-check row1">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  id="type3"
+                  name="type"
+                  value="3"
+                />
+                <label class="form-check-label" for="type3"> Bug</label>
+              </div>
+            </div>
+            <h6 id="typeError" style="visibility: hidden; color: #cd1818">
+              Select Task Type
+            </h6>
+            <div id="box">
+              <label class="form-check-label">Label</label>
+              <div class="form-check">
+                <input
+                  id="ch1"
+                  type="checkbox"
+                  class="form-check-input checkbox"
+                  name="label[]"
+                  value="1"
+                />
+                <label class="form-check-label">Feature</label>
+              </div>
+              <div class="form-check">
+                <input
+                  id="ch2"
+                  type="checkbox"
+                  class="form-check-input checkbox"
+                  name="label[]"
+                  value="2"
+                />
+                <label class="form-check-label">Front-End</label>
+              </div>
+              <div class="form-check">
+                <input
+                  id="ch3"
+                  type="checkbox"
+                  class="form-check-input checkbox"
+                  name="label[]"
+                  value="3"
+                />
+                <label class="form-check-label">Change Request</label>
+              </div>
+              <div class="form-check">
+                <input
+                  id="ch4"
+                  type="checkbox"
+                  class="form-check-input checkbox"
+                  name="label[]"
+                  value="4"
+                />
+                <label class="form-check-label">Back-End</label>
+              </div>
+            </div>
+            <h6 id="labelError" style="visibility: hidden; color: #cd1818">
+              Min one Label is required
+            </h6>
+          </div>
+        </div>
+        <div id="btn">
+          <button class="btn" type="reset">Reset</button>
+          <button class="btn" id="save" type="button">Save</button>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      jQuery(document).ready(function () {
+        if (localStorage.getItem("accessToken") == null)
+          location.replace("./tasklogin.html");
+      });
+      if (localStorage.getItem("Id") !== null) {
+        let title = $("#title");
+        let des = $("#des");
+        let dueDate = $("#dueDate");
+        let priority = $("#priority");
+        let label = $("[name='label[]']");
+        let type = $("[name='type']");
+        let save = $("#save");
+        let logout = $("#logout");
+
+        title.val(localStorage.getItem("title"));
+
+        des.val(localStorage.getItem("des"));
+        var today = new Date(localStorage.getItem("due"));
+        if (today.getDate() < 10)
+          var formattedtoday =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            "0" +
+            (today.getDate() + 1);
+        else
+          var formattedtoday =
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            (today.getDate() + 1);
+
+        dueDate.val(formattedtoday);
+
+        priority.val(localStorage.getItem("priority"));
+        let rdo = localStorage.getItem("type");
+        if (rdo == 1) $("#type1").prop("checked", true);
+        else if (rdo == 2) $("#type2").prop("checked", true);
+        else $("#type3").prop("checked", true);
+
+        for (i = 0; i < 4; i++) {
+          if (localStorage.getItem("label")[i] == 1)
+            $("#ch1").prop("checked", true);
+          else if (localStorage.getItem("label")[i] == 2)
+            $("#ch2").prop("checked", true);
+          else if (localStorage.getItem("label")[i] == 3)
+            $("#ch3").prop("checked", true);
+          else if (localStorage.getItem("label")[i] == 4)
+            $("#ch4").prop("checked", true);
+        }
+      }
+
+      let title = $("#title");
+      let des = $("#des");
+      let dueDate = $("#dueDate");
+      let priority = $("#priority");
+      let label = $("[name='label[]']");
+      let type = $("[name='type']");
+      let save = $("#save");
+      let logout = $("#logout");
+
+      let titleError = $("#titleError");
+      let desError = $("#desError");
+      let dueError = $("#dueError");
+      let priorError = $("#priorError");
+      let labelError = $("#labelError");
+      let typeError = $("#typeError");
+
+      logout.click(function () {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("email");
+        localStorage.removeItem("firstName");
+        localStorage.removeItem("lastName");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("title");
+        localStorage.removeItem("des");
+        localStorage.removeItem("due");
+        localStorage.removeItem("label");
+        localStorage.removeItem("type");
+        localStorage.removeItem("Id");
+        localStorage.removeItem("priority");
+      });
+
+      $.fn.extend({
+        validateTitle: function () {
+          if (title.val().trim() == "") {
+            $.fn.error(title, titleError);
+            return false;
+          } else {
+            $.fn.valid(title, titleError);
+            return true;
+          }
+        },
+        validateDes: function () {
+          if (des.val().trim() == "") {
+            $.fn.error(des, desError);
+            return false;
+          } else {
+            $.fn.valid(des, desError);
+            return true;
+          }
+        },
+        validatePriority: function () {
+          if (priority.val() == null) {
+            $.fn.error(priority, priorError);
+            return false;
+          } else {
+            $.fn.valid(priority, priorError);
+            return true;
+          }
+        },
+        validateDueDate: function () {
+          let dd = new Date(dueDate.val());
+          let tt = new Date();
+
+          if (dueDate.val() == "" || dd.getTime() < tt.getTime()) {
+            $.fn.error(dueDate, dueError);
+            return false;
+          } else {
+            $.fn.valid(dueDate, dueError);
+            return true;
+          }
+        },
+        validateType: function () {
+          if (type.is(":checked") == false) {
+            typeError.css("visibility", "visible");
+            return false;
+          } else {
+            typeError.css("visibility", "hidden");
+            return true;
+          }
+        },
+        validateLabel: function () {
+          let count = 0;
+          for (var i = 0; i < 4; i++) {
+            if (label[i].checked) count = 1;
+          }
+          if (count == 0) {
+            labelError.css("visibility", "visible");
+            return false;
+          } else {
+            labelError.css("visibility", "hidden");
+            return true;
+          }
+        },
+        valid: function (field, para) {
+          field.addClass("is-valid");
+          field.removeClass("is-invalid");
+          para.css("visibility", "hidden");
+        },
+        error: function (field, para) {
+          field.addClass("is-invalid");
+          para.css("visibility", "visible");
+        },
+        removels: function () {
+          localStorage.removeItem("title");
+          localStorage.removeItem("des");
+          localStorage.removeItem("due");
+          localStorage.removeItem("label");
+          localStorage.removeItem("type");
+          localStorage.removeItem("Id");
+          localStorage.removeItem("priority");
+        },
+        removeValidClass: function () {
+          title.removeClass("is-valid");
+          des.removeClass("is-valid");
+          dueDate.removeClass("is-valid");
+          priority.removeClass("is-valid");
+        },
+      });
+      title.blur(function () {
+        $.fn.validateTitle();
+      });
+      des.blur(function () {
+        $.fn.validateDes();
+      });
+      priority.blur(function () {
+        $.fn.validatePriority();
+      });
+      dueDate.blur(function () {
+        $.fn.validateDueDate();
+      });
+      type.click(function () {
+        $.fn.validateType();
+      });
+      label.click(function () {
+        $.fn.validateLabel();
+      });
+
+      save.click(function () {
+        $.fn.validateTitle();
+        $.fn.validateType();
+        $.fn.validateDes();
+        $.fn.validateDueDate();
+        $.fn.validateLabel();
+        $.fn.validatePriority();
+        if (
+          $.fn.validateTitle() &&
+          $.fn.validateType() &&
+          $.fn.validateDes() &&
+          $.fn.validateDueDate() &&
+          $.fn.validateLabel() &&
+          $.fn.validatePriority() == true
+        ) {
+          let typeChecked = $("[name='type']:checked");
+          let Id = localStorage.getItem("Id");
+          let checkedValue = [];
+          let k = 0;
+          for (var i = 0; i < 4; i++) {
+            if (label[i].checked) {
+              checkedValue[k] = label[i].value;
+              k++;
+            }
+          }
+
+          let d = new Date(dueDate.val());
+          let date = d.getDate();
+          if (date < 10) date = "0" + (date + 1);
+          else date = date + 1;
+          let dateValue =
+            d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + date;
+
+          let jsonBody = {
+            title: title.val(),
+            description: des.val(),
+            dueDate: dateValue,
+            label: checkedValue,
+            priority: priority.val(),
+            type: typeChecked.val(),
+          };
+          if (Id == null) {
+            $.ajax({
+              type: "POST",
+              dataType: "json",
+              contentType: "application/json",
+              headers: { Authorization: localStorage.getItem("accessToken") },
+              data: JSON.stringify(jsonBody),
+              url: "https://task-management-rest-app.herokuapp.com/api/tasks",
+              success: function (data) {
+                console.log(data);
+                form.reset();
+                $.fn.removeValidClass();
+                setTimeout(alert("Task Created"), 1000);
+              },
+              error: function () {
+                alert("Task Not Created");
+              },
+            });
+          } else {
+            $.ajax({
+              url:
+                "https://task-management-rest-app.herokuapp.com/api/tasks/" +
+                Id,
+              type: "PUT",
+              contentType: "application/json",
+              headers: { Authorization: localStorage.getItem("accessToken") },
+              data: JSON.stringify(jsonBody),
+              dataType: "json",
+              success: function (data) {
+                $.fn.removeValidClass();
+                $.fn.removels();
+                console.log(data);
+                form.reset();
+                setTimeout(alert("Task Updated"), 1000);
+              },
+              error: function () {
+                alert("Task Not Updated");
+              },
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

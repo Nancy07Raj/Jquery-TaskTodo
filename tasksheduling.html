@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Task Shedule Page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .nav-space {
+        margin: 0 20px;
+      }
+      .nav-item:hover {
+        background-color: #96c7c1;
+        color: black;
+      }
+      .content {
+        margin: 10px 20px;
+        max-height: 100%;
+        max-width: 100%;
+        /* background-color: darkseagreen; */
+      }
+
+      button:hover {
+        border-color: darkblue;
+        color: darkblue;
+      }
+      .display {
+        border: 2px solid;
+        padding: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-sm bg-dark container-fluid navbar-dark center"
+    >
+      <ul class="navbar-nav">
+        <li class="nav-item nav-space">
+          <a href="./taskhome.html" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="./task.html" class="nav-link">Task</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="#" class="nav-link">DasshBoard</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="#" class="nav-link">Task Schedule</a>
+        </li>
+        <li class="nav-item nav-space">
+          <a href="./index.html" id="logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <table class="table" id="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Priority</th>
+            <th>Label</th>
+            <th>Due Date</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script>
+      jQuery(document).ready(function () {
+        if (localStorage.getItem("accessToken") == null)
+          location.replace("./tasklogin.html");
+        let logout = $("#logout");
+        let edtBtn = $("#edtBtn");
+        let delBtn = $("#delBtn");
+
+        logout.click(function () {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("email");
+          localStorage.removeItem("firstName");
+          localStorage.removeItem("lastName");
+          localStorage.removeItem("userId");
+        });
+        $.ajax({
+          type: "GET",
+          url: "https://task-management-rest-app.herokuapp.com/api/tasks",
+          dataType: "json",
+          headers: { Authorization: localStorage.getItem("accessToken") },
+          contentType: "application/json",
+          success: function (data) {
+            console.log(data);
+            taskList(data);
+          },
+        });
+      });
+
+      function taskList(output) {
+        let table = document.getElementById("table");
+
+        for (j = 0; j < output.data.length; j++) {
+          let taskId = [];
+          taskId[j] = output.data[j]._id;
+
+          let rw = table.insertRow(-1);
+          let cell = [];
+          for (i = 0; i <= 8; i++) {
+            cell[i] = rw.insertCell(i);
+          }
+          cell[0].innerHTML = output.data[j].title;
+          cell[1].innerHTML = output.data[j].description;
+          for (k = 0; k < 3; k++) {
+            if (output.data[j].type == 1)
+              cell[2].innerHTML =
+                '<span class="display" style="border-color:#0092CA">Task</span>';
+            if (output.data[j].type == 2)
+              cell[2].innerHTML =
+                '<span class="display" style="border-color:#4C4C6D">Story</span>';
+            if (output.data[j].type == 3)
+              cell[2].innerHTML =
+                '<span class="display" style="border-color:#E01171">Bug</span>';
+          }
+          for (k = 0; k < 3; k++) {
+            if (output.data[j].priority == 1)
+              cell[3].innerHTML =
+                '<span class="display" style="border-color:#F90716">High</span>';
+            if (output.data[j].priority == 2)
+              cell[3].innerHTML =
+                '<span class="display" style="border-color:#C5D200">Medium</span>';
+            if (output.data[j].priority == 3)
+              cell[3].innerHTML =
+                '<span class="display" style="border-color:#424242">Low</span>';
+          }
+          for (k = 0; k < 4; k++) {
+            if (output.data[j].label[k] == 1) cell[4].innerHTML += " Feature";
+            if (output.data[j].label[k] == 2) cell[4].innerHTML += " Front-End";
+            if (output.data[j].label[k] == 3)
+              cell[4].innerHTML += " Change Request";
+            if (output.data[j].label[k] == 4) cell[4].innerHTML += " Back-End";
+          }
+          let dt = new Date(output.data[j].dueDate);
+          if (dt.getDate() < 10)
+            deadLine =
+              dt.getFullYear() +
+              "-" +
+              (dt.getMonth() + 1) +
+              "-" +
+              "0" +
+              (dt.getDate() + 1);
+          else
+            deadLine =
+              dt.getFullYear() +
+              "-" +
+              (dt.getMonth() + 1) +
+              "-" +
+              (dt.getDate() + 1);
+          let today = new Date();
+
+          if (dt.getTime() < today.getTime()) {
+            cell[5].innerHTML = `<span style="color:red;"> ${deadLine} *</span>`;
+          } else cell[5].innerHTML = deadLine;
+
+          cell[6].innerHTML = `<button class="btn" id="edtBtn" onclick="edt('${taskId[j]}');"  data-id="${taskId[j]}" type="button">Edit</button>`;
+          cell[7].innerHTML = `<button class="btn" id="delBtn" onclick="dele('${taskId[j]}');" data-id="${taskId[j]}" type="button">Delete</button>`;
+        }
+      }
+      function lstore(elem) {
+        localStorage.setItem("title", elem.data.title);
+        localStorage.setItem("des", elem.data.description);
+        localStorage.setItem("due", elem.data.dueDate);
+        localStorage.setItem("type", elem.data.type);
+        localStorage.setItem("priority", elem.data.priority);
+        localStorage.setItem("label", elem.data.label);
+        localStorage.setItem("Id", elem.data._id);
+        location.replace("./task.html");
+      }
+
+      function dele(x) {
+        let deleId = x;
+        $.ajax({
+          type: "DELETE",
+          headers: { Authorization: localStorage.getItem("accessToken") },
+          url:
+            "https://task-management-rest-app.herokuapp.com/api/tasks/" +
+            deleId,
+          dataType: "json",
+          contentType: "application/json",
+          success: function () {
+            location.replace("./tasksheduling.html");
+          },
+        });
+      }
+
+      function edt(Id) {
+        let edtId = Id;
+        $.ajax({
+          type: "GET",
+          headers: { Authorization: localStorage.getItem("accessToken") },
+          dataType: "json",
+          contentType: "application/json",
+          url:
+            "https://task-management-rest-app.herokuapp.com/api/tasks/" + edtId,
+          success: function (data) {
+            lstore(data);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
