@@ -68,6 +68,10 @@
         justify-content: left;
         width: 600px;
       }
+      h6 {
+        font-size: 14px;
+        font-weight: 400;
+      }
     </style>
   </head>
   <body>
@@ -297,6 +301,8 @@
       let priority = $("#priority");
       let label = $("[name='label[]']");
       let type = $("[name='type']");
+      let typeDiv = $("#type");
+      let chDiv = $("#box");
       let save = $("#save");
       let logout = $("#logout");
 
@@ -377,10 +383,12 @@
             if (label[i].checked) count = 1;
           }
           if (count == 0) {
+            // $.fn.error(chDiv, labelError);
             labelError.css("visibility", "visible");
             return false;
           } else {
             labelError.css("visibility", "hidden");
+            // $.fn.valid(chDiv, labelError);
             return true;
           }
         },
